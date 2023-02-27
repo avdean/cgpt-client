@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { HiPlus, HiSun, HiMoon } from "react-icons/hi";
-import { FaRegPaperPlane } from "react-icons/fa";
+// import { FaRegPaperPlane } from "react-icons/fa";
 //import { motion, AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-import loading from "react-useanimations/lib/loading";
-import UseAnimations from "react-useanimations";
+// import loading from "react-useanimations/lib/loading";
+// import UseAnimations from "react-useanimations";
 import useLocalStorage from "use-local-storage";
 
 import "./normal.css";
 import "./App.css";
 
 import WelcomeScreen from "./components/Chat/WelcomeScreenHeader";
+import ChatInput from "./components/Chat/Input";
 // import ChatMessage from "./components/Chat/ChatMessage";
 
 function App() {
@@ -77,7 +78,7 @@ function App() {
 
   const SideMenu = (e) => {
     return (
-      <motion.aside
+      <aside
         className="sidemenu"
         initial={{ x: 1 }}
         animate={{ x: 0 }}
@@ -115,7 +116,7 @@ function App() {
             Dark Mode
           </div>
         )}
-      </motion.aside>
+      </aside>
     );
   };
 
@@ -165,29 +166,12 @@ function App() {
           ))}
         </motion.div>
         {/* {apiKey !== "" && ( */}
-        <motion.div className="chat-input-holder">
-          <form className="inputForm" onSubmit={handleSubmit}>
-            <input
-              className="chat-input-textarea"
-              rows="1"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
-            {!isLoading ? (
-              <FaRegPaperPlane
-                size="24px"
-                style={{ cursor: "pointer" }}
-                onClick={handleSubmit}
-              />
-            ) : (
-              <UseAnimations
-                animation={loading}
-                size={24}
-                strokeColor={"white"}
-              />
-            )}
-          </form>
-        </motion.div>
+        <ChatInput
+          handleSubmit={handleSubmit}
+          input={input}
+          setInput={setInput}
+          isLoading={isLoading}
+        />
         {/* )} */}
       </motion.section>
     </div>

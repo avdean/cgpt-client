@@ -18,8 +18,9 @@ code {
   --secondary:#ffffff;
   --accent:#413E53;
   --font-color:#413E53;
-  --shadow:rgba(0, 0, 0, 0.5);
-  --inputShadow:rgba(0, 0, 0, 0.3);
+  --shadow:rgba(0, 0, 0, 0.15);
+  --userColor:#FEFEFE;
+  --inputShadow:rgba(0, 0, 0, 0.15);
   transition: 0.3s;
 }
 
