@@ -52,7 +52,7 @@ function App() {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("cgpt2-5.glitch.me/", {
+    const response = await fetch("https://cgpt2-5.glitch.me/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
