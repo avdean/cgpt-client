@@ -17,7 +17,7 @@ const ChatInput = (props, handleSubmit, theme) => {
           <FaRegPaperPlane
             size="24px"
             style={{ cursor: "pointer" }}
-            onClick={handleSubmit}
+            onClick={props.handleSubmit}
           />
         ) : !theme === "light" ? (
           <UseAnimations animation={loading} size={24} strokeColor={"white"} />
