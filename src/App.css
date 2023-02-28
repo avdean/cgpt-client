@@ -9,6 +9,18 @@ p {
   font-family: 'Nunito';
 }
 
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--secondary);
+}
+
+a:visited {
+  color: var(--primary);
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -80,7 +92,8 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap:10px;
 
 }
 
@@ -166,6 +179,10 @@ transform: scale(10px);
   flex-direction: column;
   justify-content: space-between;
   font-family: 'Epilogue';  
+  gap:10px;
+}
+
+.sidemenuInner {
   gap:10px;
 }
 

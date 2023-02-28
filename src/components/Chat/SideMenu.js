@@ -8,7 +8,7 @@ const SideMenu = (props) => {
         animate={{ x: 0 }}
         key="aside"
       >
-        <div>
+        <div className="sidemenuInner">
           <div className="sidemenu-button" onClick={props.clearChat}>
             <HiPlus />
             New chat

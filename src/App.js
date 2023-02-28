@@ -16,9 +16,14 @@ function App() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isInitial, setIsInitial] = useState(true);
+  const [error, setError] = useState(false);
   const [currentModel, setCurrentModel] = useState(() => {
     const savedModel = localStorage.getItem("currentModel");
     return savedModel !== null ? savedModel : "text-davinci-003";
+  });
+  const [currentServer, setCurrentServer] = useState(() => {
+    const savedServer = localStorage.getItem("myServer");
+    return savedServer !== null ? savedServer : "";
   });
   const [chatLog, setChatLog] = useState([]);
 
@@ -47,7 +52,7 @@ function App() {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("https://cgpt2-5.glitch.me/", {
+    const response = await fetch(currentServer, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,11 +77,15 @@ function App() {
 
   return (
     <div className="App" data-theme={theme}>
-      <SideMenu
-        clearChat={clearChat}
-        setCurrentModel={setCurrentModel}
-        currentModel={currentModel}
-      />
+      {currentServer !== "" && !error && (
+        <SideMenu
+          clearChat={clearChat}
+          setCurrentModel={setCurrentModel}
+          currentModel={currentModel}
+          theme={theme}
+          switchTheme={switchTheme}
+        />
+      )}
       <motion.section className="chatbox">
         <div className="topmenu">
           <div className="sidemenu-button" onClick={clearChat}>
@@ -91,23 +100,31 @@ function App() {
             }}
             value={currentModel}
           >
-              <option value="text-davinci-003">Text - Davinci 3</option>
-              <option value="text-davinci-002">Text - Davinci 2</option>
-              <option value="text-davinci">Text - Davinci 1</option>
-              <option value="text-ada">Text - Ada</option>
-              <option value="code-cushman-001">Code - Cushman</option>
+            <option value="text-davinci-003">Text - Davinci 3</option>
+            <option value="text-davinci-002">Text - Davinci 2</option>
+            <option value="text-davinci">Text - Davinci 1</option>
+            <option value="text-ada">Text - Ada</option>
+            <option value="code-cushman-001">Code - Cushman</option>
           </select>
           {theme === "light" ? (
-          <div className="sidemenu-button" onClick={switchTheme}>
-            <HiSun />
-          </div>
-        ) : (
-          <div className="sidemenu-button" onClick={switchTheme}>
-            <HiMoon />
-          </div>
-        )}
+            <div className="sidemenu-button" onClick={switchTheme}>
+              <HiSun />
+            </div>
+          ) : (
+            <div className="sidemenu-button" onClick={switchTheme}>
+              <HiMoon />
+            </div>
+          )}
         </div>
-        {isInitial && <WelcomeScreen />}
+        {isInitial && currentServer === "" && (
+          <WelcomeScreen
+            setCurrentServer={setCurrentServer}
+            currentServer={currentServer}
+            error={error}
+            setError={setError}
+            setIsInitial={setIsInitial}
+          />
+        )}
         <motion.div className="chat-log">
           {chatLog.map((message, index) => (
             <ChatMessage
@@ -117,12 +134,15 @@ function App() {
             />
           ))}
         </motion.div>
-        <ChatInput
-          handleSubmit={handleSubmit}
-          input={input}
-          setInput={setInput}
-          isLoading={isLoading}
-        />
+
+        {currentServer !== "" && !error && (
+          <ChatInput
+            handleSubmit={handleSubmit}
+            input={input}
+            setInput={setInput}
+            isLoading={isLoading}
+          />
+        )}
       </motion.section>
     </div>
   );
