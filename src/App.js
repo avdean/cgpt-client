@@ -1,18 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { HiPlus, HiSun, HiMoon } from "react-icons/hi";
-// import { FaRegPaperPlane } from "react-icons/fa";
-//import { motion, AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
-// import loading from "react-useanimations/lib/loading";
-// import UseAnimations from "react-useanimations";
+
 import useLocalStorage from "use-local-storage";
 
 import "./normal.css";
 import "./App.css";
 
 import WelcomeScreen from "./components/Chat/WelcomeScreenHeader";
-import ChatInput from "./components/Chat/Input";
-// import ChatMessage from "./components/Chat/ChatMessage";
+import ChatInput from "./components/Chat/ChatInput";
+import ChatMessage from "./components/Chat/ChatMessage";
+import SideMenu from "./components/Chat/SideMenu";
 
 function App() {
   const [input, setInput] = useState("");
@@ -23,10 +21,6 @@ function App() {
     return savedModel !== null ? savedModel : "text-davinci-003";
   });
   const [chatLog, setChatLog] = useState([]);
-  // const [apiKey, setApiKey] = useState(() => {
-  //   const savedApiKey = localStorage.getItem("apiKey");
-  //   return savedApiKey !== null ? savedApiKey : "";
-  // });
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
@@ -76,59 +70,13 @@ function App() {
     console.log(data.message);
   }
 
-  const SideMenu = (e) => {
-    return (
-      <aside
-        className="sidemenu"
-        initial={{ x: 1 }}
-        animate={{ x: 0 }}
-        key="aside"
-      >
-        <div>
-          <div className="sidemenu-button" onClick={clearChat}>
-            <HiPlus />
-            New chat
-          </div>
-          <div>
-            <h3>Models</h3>
-            <select
-              className="dropdown"
-              onChange={(e) => {
-                setCurrentModel(e.target.value);
-                localStorage.setItem(setCurrentModel, e.target.value);
-                console.log(currentModel);
-              }}
-              value={currentModel}
-            >
-              <option value="text-davinci-003">Text - Davinci 3</option>
-              <option value="code-cushman-001'">Code - Cushman</option>
-            </select>
-          </div>
-        </div>
-        {theme === "light" ? (
-          <div className="sidemenu-button" onClick={switchTheme}>
-            <HiSun />
-            Light Mode
-          </div>
-        ) : (
-          <div className="sidemenu-button" onClick={switchTheme}>
-            <HiMoon />
-            Dark Mode
-          </div>
-        )}
-      </aside>
-    );
-  };
-
   return (
     <div className="App" data-theme={theme}>
-      {/* {apiKey !== "" && ( */}
       <SideMenu
         clearChat={clearChat}
         setCurrentModel={setCurrentModel}
         currentModel={currentModel}
       />
-      {/* )} */}
       <motion.section className="chatbox">
         <div className="topmenu">
           <div className="sidemenu-button" onClick={clearChat}>
@@ -143,18 +91,22 @@ function App() {
             }}
             value={currentModel}
           >
-            <option value="text-davinci-003">Davinci 3</option>
-            <option value="code-cushman-001'">Cushman</option>
+              <option value="text-davinci-003">Text - Davinci 3</option>
+              <option value="text-davinci-002">Text - Davinci 2</option>
+              <option value="text-davinci">Text - Davinci 1</option>
+              <option value="text-ada">Text - Ada</option>
+              <option value="code-cushman-001">Code - Cushman</option>
           </select>
+          {theme === "light" ? (
           <div className="sidemenu-button" onClick={switchTheme}>
-            <HiSun size="32px" />
+            <HiSun />
           </div>
+        ) : (
+          <div className="sidemenu-button" onClick={switchTheme}>
+            <HiMoon />
+          </div>
+        )}
         </div>
-        {/* {isInitial && apiKey === "" ? (
-            <WelcomeScreen setApiKey={setApiKey} apiKey={apiKey} />
-          ) : (
-            ""
-          )} */}
         {isInitial && <WelcomeScreen />}
         <motion.div className="chat-log">
           {chatLog.map((message, index) => (
@@ -165,60 +117,15 @@ function App() {
             />
           ))}
         </motion.div>
-        {/* {apiKey !== "" && ( */}
         <ChatInput
           handleSubmit={handleSubmit}
           input={input}
           setInput={setInput}
           isLoading={isLoading}
         />
-        {/* )} */}
       </motion.section>
     </div>
   );
 }
-
-const ChatMessage = (message, index) => {
-  const messageRef = useRef(null);
-  useEffect(() => {
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, [messageRef]);
-
-  if (message.user === "gpt") {
-    return (
-      <div className="chat-message-gpt">
-        <motion.div
-          ref={messageRef}
-          key={index}
-          className="messageChatgpt"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 3 }}
-        >
-          {message.message}
-        </motion.div>
-      </div>
-    );
-  } else
-    return (
-      <div className="chat-message">
-        <motion.div
-          ref={messageRef}
-          key={index}
-          className="message"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-        >
-          {message.message}
-        </motion.div>
-      </div>
-    );
-};
 
 export default App;

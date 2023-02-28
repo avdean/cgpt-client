@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import {motion, AnimatePresence} from "framer-motion";
 
-const ChatMessage = (props, message, index) => {
+const ChatMessage = (props, index) => {
   const messageRef = useRef(null);
   useEffect(() => {
     if (messageRef.current) {
@@ -24,7 +24,7 @@ const ChatMessage = (props, message, index) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 3 }}
           >
-            {message}
+            {props.message}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -41,7 +41,7 @@ const ChatMessage = (props, message, index) => {
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
           >
-            {message}
+            {props.message}
           </motion.div>
         </AnimatePresence>
       </div>
