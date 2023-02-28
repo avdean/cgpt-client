@@ -188,13 +188,16 @@ transform: scale(10px);
 
 @media (max-width:700px) {
   .sidemenu {
-    display:none;
+    position: absolute;
+    height:100dvh;
+    transform:translateX(-100%);
+    transition: 0.3s;
   }
 }
 
 .topmenu {
   width: 100vw;
-  height:10vh;
+  height:5vh;
   padding: 2%;
   background-color: var(--background);
   display: flex;
