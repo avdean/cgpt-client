@@ -1,31 +1,34 @@
 import { useState } from "react";
-import { HiPlus, HiSun, HiMoon } from "react-icons/hi";
+import { HiMenu, HiSun, HiMoon } from "react-icons/hi";
 import { motion } from "framer-motion";
-
 import useLocalStorage from "use-local-storage";
 
 import "./normal.css";
 import "./App.css";
 
 import WelcomeScreen from "./components/Chat/WelcomeScreenHeader";
-import ChatInput from "./components/Chat/ChatInput";
 import ChatMessage from "./components/Chat/ChatMessage";
-import SideMenu from "./components/Chat/SideMenu";
+
+import SideMenu from "./components/UI/SideMenu";
+import ChatInput from "./components/UI/ChatInput";
 
 function App() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isInitial, setIsInitial] = useState(true);
   const [error, setError] = useState(false);
+  const [showSidemenu, setShowSidemenu] = useState(false);
+
   const [currentModel, setCurrentModel] = useState(() => {
     const savedModel = localStorage.getItem("currentModel");
     return savedModel !== null ? savedModel : "text-davinci-003";
   });
+  
   const [currentServer, setCurrentServer] = useState(() => {
     const savedServer = localStorage.getItem("myServer");
     return savedServer !== null ? savedServer : "";
   });
-  const [chatLog, setChatLog] = useState([]);
+  const [chatLog, setChatLog] = useLocalStorage("chatLog", []);
 
   const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [theme, setTheme] = useLocalStorage(
@@ -40,6 +43,10 @@ function App() {
 
   function clearChat() {
     setChatLog([]);
+  }
+
+  function toggleSideMenu() {
+    setShowSidemenu(!showSidemenu);
   }
 
   async function handleSubmit(e) {
@@ -84,28 +91,16 @@ function App() {
           currentModel={currentModel}
           theme={theme}
           switchTheme={switchTheme}
+          showSidemenu={showSidemenu}
+          toggleSideMenu={toggleSideMenu}
         />
       )}
       <motion.section className="chatbox">
         <div className="topmenu">
-          <div className="sidemenu-button" onClick={clearChat}>
-            <HiPlus />
+          <div className="sidemenu-button" onClick={toggleSideMenu}>
+            <HiMenu />
           </div>
-          <select
-            className="dropdown"
-            onChange={(e) => {
-              setCurrentModel(e.target.value);
-              localStorage.setItem(setCurrentModel, e.target.value);
-              console.log(currentModel);
-            }}
-            value={currentModel}
-          >
-            <option value="text-davinci-003">Text - Davinci 3</option>
-            <option value="text-davinci-002">Text - Davinci 2</option>
-            <option value="text-davinci">Text - Davinci 1</option>
-            <option value="text-ada">Text - Ada</option>
-            <option value="code-cushman-001">Code - Cushman</option>
-          </select>
+          <p>{currentModel}</p>
           {theme === "light" ? (
             <div className="sidemenu-button" onClick={switchTheme}>
               <HiSun />

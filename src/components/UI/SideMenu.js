@@ -1,14 +1,21 @@
-import { HiPlus, HiSun, HiMoon } from "react-icons/hi";
+import { HiX, HiPlus, HiSun, HiMoon } from "react-icons/hi";
 
 const SideMenu = (props) => {
-    return (
+  return (
+    <>
       <aside
-        className="sidemenu"
+        className={props.showSidemenu ? "sidemenu show" : "sidemenu"}
         initial={{ x: 1 }}
         animate={{ x: 0 }}
         key="aside"
       >
         <div className="sidemenuInner">
+          {props.showSidemenu && (
+            <div className="sidemenu-button" onClick={props.toggleSideMenu}>
+              <HiX />
+              Close Menu
+            </div>
+          )}
           <div className="sidemenu-button" onClick={props.clearChat}>
             <HiPlus />
             New chat
@@ -44,7 +51,8 @@ const SideMenu = (props) => {
           </div>
         )}
       </aside>
-    );
-  };
+    </>
+  );
+};
 
-  export default SideMenu;
+export default SideMenu;

@@ -1,5 +1,5 @@
-import loading from "react-useanimations/lib/loading";
 import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
 import { FaRegPaperPlane } from "react-icons/fa";
 import { motion } from "framer-motion";
 
