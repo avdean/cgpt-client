@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { HiMenu, HiSun, HiMoon } from "react-icons/hi";
 import { motion } from "framer-motion";
 import useLocalStorage from "use-local-storage";
 
@@ -11,6 +10,7 @@ import ChatMessage from "./components/Chat/ChatMessage";
 
 import SideMenu from "./components/UI/SideMenu";
 import ChatInput from "./components/UI/ChatInput";
+import TopMenu from "./components/UI/TopMenu";
 
 function App() {
   const [input, setInput] = useState("");
@@ -23,7 +23,7 @@ function App() {
     const savedModel = localStorage.getItem("currentModel");
     return savedModel !== null ? savedModel : "text-davinci-003";
   });
-  
+
   const [currentServer, setCurrentServer] = useState(() => {
     const savedServer = localStorage.getItem("myServer");
     return savedServer !== null ? savedServer : "";
@@ -96,21 +96,11 @@ function App() {
         />
       )}
       <motion.section className="chatbox">
-        <div className="topmenu">
-          <div className="sidemenu-button" onClick={toggleSideMenu}>
-            <HiMenu />
-          </div>
-          <p>{currentModel}</p>
-          {theme === "light" ? (
-            <div className="sidemenu-button" onClick={switchTheme}>
-              <HiSun />
-            </div>
-          ) : (
-            <div className="sidemenu-button" onClick={switchTheme}>
-              <HiMoon />
-            </div>
-          )}
-        </div>
+        <TopMenu
+          toggleSideMenu={toggleSideMenu}
+          theme={theme}
+          switchTheme={switchTheme}
+        />
         {isInitial && currentServer === "" && (
           <WelcomeScreen
             setCurrentServer={setCurrentServer}
