@@ -98,6 +98,7 @@ function App() {
       <motion.section className="chatbox">
         <TopMenu
           toggleSideMenu={toggleSideMenu}
+          currentModel={currentModel}
           theme={theme}
           switchTheme={switchTheme}
         />

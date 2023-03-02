@@ -6,7 +6,7 @@ const TopMenu = (props) => {
           <div className="sidemenu-button" onClick={props.toggleSideMenu}>
             <HiMenu />
           </div>
-          <p>{currentModel}</p>
+          <p>{props.currentModel}</p>
           {props.theme === "light" ? (
             <div className="sidemenu-button" onClick={props.switchTheme}>
               <HiSun />
